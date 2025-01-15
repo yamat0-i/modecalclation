@@ -29,7 +29,8 @@ def main(radius, a, core_index, clad_index, P660, P785):
                                      pol=0)
     I785 = np.abs(Ex785)**2 + np.abs(Ey785)**2 + np.abs(Ez785)**2
     plot(I660=I660, Ex660=Ex660, Ey660=Ey660, Ez660=Ez660, P660=P660, 
-         I785=I785, Ex785=Ex785, Ey785=Ey785, Ez785=Ez785, P785=P785)
+         I785=I785, Ex785=Ex785, Ey785=Ey785, Ez785=Ez785, P785=P785,
+         radius=radius, a=a)
     # intersection(I660, I785)
     
 
@@ -68,7 +69,7 @@ def circmode(wavelength, radius, core_index, clad_index, power):
 #     idx = np.argwhere(np.isclose(y1, y2))
 #     print(idx)
 
-def plot(I660, Ex660, Ey660, Ez660, P660, I785, Ex785, Ey785, Ez785, P785):
+def plot(I660, Ex660, Ey660, Ez660, P660, I785, Ex785, Ey785, Ez785, P785, radius, a):
     fig = plt.figure(layout='constrained')
 
     ax1 = fig.add_subplot(4, 1, 1)
@@ -78,19 +79,21 @@ def plot(I660, Ex660, Ey660, Ez660, P660, I785, Ex785, Ey785, Ez785, P785):
 
     ax1.plot(phi_deg, I660, color='red', label='660nm, {}mW, Circ.'.format(P660*1e3))
     ax1.plot(phi_deg, I785, color='black', label='785nm, {}mW, Lin.'.format(P785*1e3))
-    ax1.set_xlabel(r'$\phi[\text{deg}]$')
+    # ax1.set_xlabel(r'$\phi[\text{deg}]$')
     ax1.set_ylabel(r'I')
     ax1.legend(loc='right')
+    ax1.set_title('r={}nm, a={}nm'.format(radius*1e9, a*1e9))
+
 
     ax2.plot(phi_deg, np.abs(Ex660)**2, color='red', label='660nm, {}mW, Circ.'.format(P660*1e3))
     ax2.plot(phi_deg, np.abs(Ex785)**2, color='black', label='785nm, {}mW, Lin.'.format(P785*1e3))
-    ax2.set_xlabel(r'$\phi[\text{deg}]$')
+    # ax2.set_xlabel(r'$\phi[\text{deg}]$')
     ax2.set_ylabel(r'$|E_{x}|^{2}$')
     ax2.legend(loc='right')
 
     ax3.plot(phi_deg, np.abs(Ey660)**2, color='red', label='660nm, {}mW, Circ.'.format(P660*1e3))
     ax3.plot(phi_deg, np.abs(Ey785)**2, color='black', label='785nm, {}mW, Lin.'.format(P785*1e3))
-    ax3.set_xlabel(r'$\phi[\text{deg}]$')
+    # ax3.set_xlabel(r'$\phi[\text{deg}]$')
     ax3.set_ylabel(r'$|E_{y}|^{2}$')
     ax3.legend(loc='right')
 
