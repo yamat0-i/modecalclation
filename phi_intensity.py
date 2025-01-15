@@ -109,11 +109,11 @@ def plot(I660, Ex660, Ey660, Ez660, P660, I785, Ex785, Ey785, Ez785, P785, radiu
 if __name__ == '__main__':
     # Parameters
     radius = 200e-9 # Fiber Radius [m]
-    a = 200e-9 # Particle size [m]
+    a = 180e-9 # Particle size [m]
     core_index = 1.45
     clad_index = 1.0
     P660 = 4.0e-3
-    P785 = 4.0e-3
+    P785 = 3.5e-3
     main(radius=radius,
          a=a,
          core_index=core_index,
