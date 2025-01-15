@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.colors import Normalize
 import fibermode
 
 
@@ -22,12 +23,14 @@ HEmode = fibermode.HE(
     core_index=core_index,
     clad_index=clad_index,
     azimuthal_order=1,
-    radial_order=0
+    radial_order=0,
+    power=10e-3
     )
 
 Ex = HEmode.Ex(rho, phi, pol)
 Ey = HEmode.Ey(rho, phi, pol)
 Ez = HEmode.Ez(rho, phi, pol)
+I = np.abs(Ex)**2 + np.abs(Ey)**2 + np.abs(Ez)**2
 
 x = rho * np.cos(phi)
 y = rho * np.sin(phi)
@@ -47,34 +50,59 @@ ax2 = fig.add_subplot(2, 2, 2)
 ax3 = fig.add_subplot(2, 2, 3)
 ax4 = fig.add_subplot(2, 2, 4)
 
-ax1.set_title('|E|^2')
-ax2.set_title('Ex^2')
-ax3.set_title('Ey^2')
-ax4.set_title('Ez^2')
+ax1.set_title(r'$|\boldsymbol{E}|^2$')
+ax2.set_title(r'$|E_{x}|^2$')
+ax3.set_title(r'$|E_{y}|^2$')
+ax4.set_title(r'$|E_{z}|^2$')
 
 ax1.set_aspect('equal')
 ax2.set_aspect('equal')
 ax3.set_aspect('equal')
 ax4.set_aspect('equal')
 
-ax1.pcolormesh(x, y, np.abs(Ex)**2 + np.abs(Ey)**2 + np.abs(Ez)**2)
+c1= ax1.pcolormesh(x, y, I)
 ax1.scatter(fib_x, fib_y, marker='.', s=0.1, c='white')
 ax1.set_xlim(-500e-9, 500e-9)
+ax1.set_xticks([-500e-9, -250e-9, 0, 250e-9, 500e-9])
+ax1.set_xticklabels(['-500', '-250', '0', '250', '500'])
 ax1.set_ylim(-500e-9, 500e-9)
+ax1.set_yticks([-500e-9, -250e-9, 0, 250e-9, 500e-9])
+ax1.set_yticklabels(['-500', '-250', '0', '250', '500'])
+ax1.set_ylabel(r'$y \text{[nm]}$')
 
 ax2.pcolormesh(x, y, np.abs(Ex)**2)
 ax2.scatter(fib_x, fib_y, marker='.', s=0.1, c='white')
 ax2.set_xlim(-500e-9, 500e-9)
+ax2.set_xticks([-500e-9, -250e-9, 0, 250e-9, 500e-9])
+ax2.set_xticklabels(['-500', '-250', '0', '250', '500'])
 ax2.set_ylim(-500e-9, 500e-9)
+ax2.set_yticks([-500e-9, -250e-9, 0, 250e-9, 500e-9])
+ax2.set_yticklabels(['-500', '-250', '0', '250', '500'])
 
 ax3.pcolormesh(x, y, np.abs(Ey)**2)
 ax3.scatter(fib_x, fib_y, marker='.', s=0.1, c='white')
 ax3.set_xlim(-500e-9, 500e-9)
+ax3.set_xticks([-500e-9, -250e-9, 0, 250e-9, 500e-9])
+ax3.set_xticklabels(['-500', '-250', '0', '250', '500'])
 ax3.set_ylim(-500e-9, 500e-9)
+ax3.set_yticks([-500e-9, -250e-9, 0, 250e-9, 500e-9])
+ax3.set_yticklabels(['-500', '-250', '0', '250', '500'])
+ax3.set_xlabel(r'$x \text{[nm]}$')
+ax3.set_ylabel(r'$y \text{[nm]}$')
 
 ax4.pcolormesh(x, y, np.abs(Ez)**2)
 ax4.scatter(fib_x, fib_y, marker='.', s=0.1, c='white')
 ax4.set_xlim(-500e-9, 500e-9)
+ax4.set_xticks([-500e-9, -250e-9, 0, 250e-9, 500e-9])
+ax4.set_xticklabels(['-500', '-250', '0', '250', '500'])
 ax4.set_ylim(-500e-9, 500e-9)
+ax4.set_yticks([-500e-9, -250e-9, 0, 250e-9, 500e-9])
+ax4.set_yticklabels(['-500', '-250', '0', '250', '500'])
+ax4.set_xlabel(r'$x \text{[nm]}$')
+
+cax = fig.add_axes([0.85, 0.1, 0.02, 0.8])
+cbar = plt.colorbar(c1, cax)
+cbar.set_ticks([np.nanmin(I), 0.2*np.nanmax(I), 0.4*np.nanmax(I), 0.6*np.nanmax(I), 0.8*np.nanmax(I), np.nanmax(I)])
+cbar.set_ticklabels([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
 
 plt.show()
