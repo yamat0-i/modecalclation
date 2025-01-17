@@ -10,9 +10,14 @@ radius = 250e-9
 core_index = 1.45
 clad_index = 1.0
 
+# Polar coordinates
 rho_values = np.linspace(0, radius+800e-9, 1000)
-phi_values = np.linspace(0, 2*np.pi, 1000)
+phi_values = np.linspace(-np.pi, 0, 1000)
 rho, phi = np.meshgrid(rho_values, phi_values)
+
+# Cartesian coordinates
+x = rho * np.cos(phi)
+y = rho * np.sin(phi)
 
 pol = np.pi / 2
 
@@ -23,7 +28,7 @@ HEmode = fibermode.HE(
     core_index=core_index,
     clad_index=clad_index,
     azimuthal_order=1,
-    radial_order=0,
+    radial_order=1,
     power=10e-3
     )
 
@@ -32,10 +37,7 @@ Ey = HEmode.Ey(rho, phi, pol)
 Ez = HEmode.Ez(rho, phi, pol)
 I = np.abs(Ex)**2 + np.abs(Ey)**2 + np.abs(Ez)**2
 
-x = rho * np.cos(phi)
-y = rho * np.sin(phi)
-
-# Fiber
+# Fiber surface
 fib_rho_values = np.linspace(radius-1e-9, radius, 1)
 fib_phi_values = np.linspace(0, 2*np.pi, 1000)
 fib_rho, fib_phi = np.meshgrid(fib_rho_values, fib_phi_values)
